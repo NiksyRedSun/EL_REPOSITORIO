@@ -2,7 +2,7 @@ from flask import Flask, request
 import json
 app = Flask(__name__)
 
-class Person:
+class Person:                               #класс кстати может быть представлен как справочник
     def __init__(self, name, age):
         self.name = name
         self.age = age
@@ -26,7 +26,13 @@ slovnik = {
     zheka.name:zheka,
     ilya.name:ilya,
 }
-
-data = json.loads('just info')
+                                                #  with - ключевое слово. Позволяет не думать о закрытии файла, после записи данных (json.dump)
+                                                # default - параметр, по умолчанию вызови то что описано в параметре (unknown_object - параметр)
 with open('my.json', 'w') as file:
-    json.dump(data, file)
+    data = json.dumps(slovnik, default = lambda unknown_object: unknown_object.__dict__)
+    json.dump(data, file)                   # 'w' и 'r' аргументы для записи и чтения. dump - чисто для сериализации/ json.dump(data, file) - запиши дату в файл
+                                             # dumps - переводить в json, dump - записывает в файл
+with open('my.json', 'r') as file:              # __dict__ представление пользовательских полей экземпляра внутри справочника
+    json.load(file)                                #считай в json файл
+    value = json.loads(data, object_hook=lambda unknown_object: unknown_object.)
+print(value)
