@@ -1,4 +1,5 @@
 from flask import Flask, request
+from types import SimpleNamespace
 import json
 app = Flask(__name__)
 
@@ -31,8 +32,11 @@ slovnik = {
 with open('my.json', 'w') as file:
     data = json.dumps(slovnik, default = lambda unknown_object: unknown_object.__dict__)
     json.dump(data, file)                   # 'w' и 'r' аргументы для записи и чтения. dump - чисто для сериализации/ json.dump(data, file) - запиши дату в файл
-                                             # dumps - переводить в json, dump - записывает в файл
+
 with open('my.json', 'r') as file:              # __dict__ представление пользовательских полей экземпляра внутри справочника
-    json.load(file)                                #считай в json файл
-    value = json.loads(data, object_hook=lambda unknown_object: unknown_object.)
-print(value)
+    data = json.load(file)                                #считай в json файл
+    data = json.loads(data)
+    print(data)
+    print(type(data))
+    print(data[niksy.name])
+    print(niksy.short_info())
