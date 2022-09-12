@@ -1,10 +1,14 @@
 import json
+from json import JSONEncoder
 from person import Person
+
+class AnyClassEncoder():
+    def default(self, obj):
+        return obj.dict
 
 def saving(slovnik):
     with open('my.json', 'w') as file:
-        data = json.dumps(slovnik, default= lambda unknown_object:unknown_object.__dict__)
-        json.dump(data, file)
+        json.dump(slovnik, file, cls=AnyClassEncoder)
 
 def loading():
     with open('my.json', 'r') as file:

@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask, request
 import json
 import random
@@ -22,6 +23,14 @@ def functions_page():
 @app.route('/<function>')
 def function_page(function):
     return functions_dict[function]
+
+@app.route('/dice')
+def dice():
+    return str(random.choice([1, 2, 3, 4, 5, 6]))
+
+@app.route('/date')
+def date():
+    return str(datetime.datetime.today())
 
 @app.route('/')
 def start_page():
