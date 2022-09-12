@@ -1,32 +1,19 @@
 import json
+from time import process_time_ns
 from person import Person
-
-def saving(slovnik):
-    with open('my.json', 'w') as file:
-        data = json.dumps(slovnik, default= lambda unknown_object:unknown_object.__dict__)
-        json.dump(data, file)
-
-def loading():
-    with open('my.json', 'r') as file:
-        data = json.load(file)
-        value = json.loads(data)
-        slovnik = {}
-        for user_key in value:
-            current_person = Person(value[user_key]['name'], value[user_key]['age'])
-            slovnik[user_key] = current_person
-    return slovnik
+from generic_json_encoder import GenericEncoder
+from typing import Dict, List
 
 
+def toJson(data, fileName) -> None:
+    with open(fileName, 'w') as file:
+        json.dump(data, file, cls=GenericEncoder)
 
 
-
-
-
-
-
-
-
-
-
-
+def fromJson(fileName) -> Dict[str, Person]:
+    with open(fileName, 'r') as file:
+        fileValues: Dict[str, dict] = json.load(file)
+        personValues = list(
+            map(lambda x: Person(**x), fileValues.values()))
+        return { person.name : person for person in personValues }
 
