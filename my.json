@@ -1,1 +1,6 @@
-{"niksy": {"name": "niksy", "age": 25}}
+{
+    "niksy": {
+        "name": "niksy",
+        "age": 25
+    }
+}
