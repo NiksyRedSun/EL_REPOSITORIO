@@ -21,6 +21,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="2EGwTwpWHbmreYJwpU68CkmPNtB" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -360,10 +361,10 @@
       <item itemvalue="Python.Scratches" />
       <item itemvalue="Python.demo-working" />
       <item itemvalue="Python.more_functioins" />
-      <item itemvalue="Python.morze" />
-      <item itemvalue="Python.dictionaries" />
-      <item itemvalue="Python.binary_search" />
       <item itemvalue="Python.Lesson 6" />
+      <item itemvalue="Python.binary_search" />
+      <item itemvalue="Python.dictionaries" />
+      <item itemvalue="Python.morze" />
       <item itemvalue="Python.web_server" />
     </list>
     <recent_temporary>
