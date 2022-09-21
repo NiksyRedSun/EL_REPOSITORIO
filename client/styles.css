@@ -1,0 +1,19 @@
+p {
+    background-color: red;
+}
+
+.header {
+    background-color: aqua;
+}
+
+.main-body {
+    background-color: bisque;
+}
+
+.main-body-paragraph {
+    background-color: blueviolet;
+}
+
+.header p {
+    background-color: chartreuse;
+}
