@@ -2,6 +2,10 @@ p {
     background-color: red;
 }
 
+h1 {
+    background-color: lightskyblue;
+}
+
 .header {
     background-color: aqua;
 }
