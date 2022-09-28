@@ -2,22 +2,23 @@ p {
     background-color: red;
 }
 
-h1 {
-    background-color: lightskyblue;
+h1, h2, h3 {
+    background-color: lightskyblue; color: cyan;
 }
 
-.header {
-    background-color: aqua;
+#last_jesus {
+    background-color: firebrick;
 }
 
-.main-body {
-    background-color: bisque;
+.box {
+    width: 100px;
+    height: 100px;
+    background: firebrick;
+    margin-top: 30px;
 }
 
-.main-body-paragraph {
-    background-color: blueviolet;
-}
-
-.header p {
-    background-color: chartreuse;
+.container {
+    width: 1170px;
+    /*позиционирование по центру*/
+    margin: 0 auto;
 }
