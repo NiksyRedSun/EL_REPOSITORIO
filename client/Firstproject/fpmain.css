@@ -3,6 +3,7 @@
     padding-bottom: 74vh;
     display: flex;
     justify-content: center
+
 }
 
 .main-body-frame {
@@ -22,30 +23,28 @@
     margin: auto;
     margin-top: 9vh;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .api {
     background-color: #16D66E;
-    width: 5.5vw;
+    width: 5.3vw;
     height: 3vh;
     border-radius: 18px;
-    margin: auto;
     color: white;
     text-align: center;
-    position: relative;
-    top: -3vh;
-
+    font-family: 'montserrat', sans-serif;
+    font-weight: 600;
+    margin-top: -5vh;
+    margin-bottom: 2vh;
+    transition: all 0.5s ease;
 }
 
-.api p{
-    color: white;
-    text-transform: uppercase;
-    font-family: 'montserrat', sans-serif;
-    font-size: 14px;
-    position: relative;
-    top: 0.57vh;
-    font-weight: 600;
-
+.api:hover {
+    background-color: #16D66E90
 }
 
 .title a{
@@ -53,21 +52,28 @@
     text-transform: uppercase;
     font-family: 'montserrat', sans-serif;
     font-size: 30px;
-    font-weight: 800;
-    position: relative;
-    top: -1vh;
+    font-weight: 800;;
 }
 
 #com {
     text-decoration: underline;
-    margin: auto;
+}
+
+
+#cursor {
+    width: 2%;
+    height: 8%;
+    position: absolute;
+    margin-left: 25vh;
+    margin-bottom: 2.5vh;
+
 }
 
 #st{
     color: white;
     font-family: 'montserrat', sans-serif;
     font-size: 25px;
-    font-weight: 300;
+    font-weight: 400;
     position: relative;
     top: 0.5vh;
 
@@ -75,6 +81,7 @@
 
 body{
     margin: auto;
+
 }
 
 .footer {
@@ -84,9 +91,9 @@ body{
     font-size: 2.5vh;
     font-family: 'roboto', sans-serif;
     font-weight: 900;
-    border: thin solid black;
     position: relative;
-    display: block;
+    display: flex;
+    justify-content: space-between;
     color: #090830;
 }
 
@@ -100,9 +107,54 @@ body{
 }
 
 
-.cursor {
-    position: absolute;
-    margin-top: -4vh;
-    width: 45px;
-    height: 59px;
+
+
+
+#link {
+    margin-top: -2.5vh;
+    margin-bottom: 8vh;
+    text-decoration: underline;
+    color: #090830;
+}
+
+#author {
+    margin: auto;
+
+}
+
+#tg {
+    margin-top: -2.4vh;
+}
+
+#time {
+    font-weight: normal;
+    margin-top: 22.7vh;
+}
+
+.tools {
+    background-color: white;
+    width: 7.7vw;
+    height: 7.4vh;
+    border-radius: 45px;
+    position: relative;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: -2vh;
+
+}
+
+#icons {
+    width: 30%;
+    height: 60%;
+    margin: auto;
+
+}
+
+.icons {
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    width: 6vw;
+    height: 7.2vh;
 }
