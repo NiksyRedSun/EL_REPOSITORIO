@@ -26,8 +26,8 @@
 
 .api {
     background-color: #16D66E;
-    width: 6vw;
-    height: 4vh;
+    width: 5.5vw;
+    height: 3vh;
     border-radius: 18px;
     margin: auto;
     color: white;
@@ -43,8 +43,8 @@
     font-family: 'montserrat', sans-serif;
     font-size: 14px;
     position: relative;
-    top: 1vh;
-    font-weight: 900;
+    top: 0.57vh;
+    font-weight: 600;
 
 }
 
@@ -53,17 +53,20 @@
     text-transform: uppercase;
     font-family: 'montserrat', sans-serif;
     font-size: 30px;
-    text-decoration: underline;
-    font-weight: 900;
+    font-weight: 800;
     position: relative;
     top: -1vh;
+}
 
+#com {
+    text-decoration: underline;
+    margin: auto;
 }
 
 #st{
     color: white;
     font-family: 'montserrat', sans-serif;
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 300;
     position: relative;
     top: 0.5vh;
@@ -75,19 +78,31 @@ body{
 }
 
 .footer {
-    display: flex;
-    margin-left: 6vh;
-    margin-top: auto;
-    font-size: 3vh;
+    margin-left: 2.5vw;
+    margin-top: 3vh;
+    margin-right: 2.5vw;
+    font-size: 2.5vh;
     font-family: 'roboto', sans-serif;
     font-weight: 900;
-
+    border: thin solid black;
+    position: relative;
+    display: block;
+    color: #090830;
 }
 
-#an {
-    position: relative;
-    font-family: 'roboto', sans-serif;
-    font-weight: 400;
-    top: 6vh;
-    margin-left: -54.5vh;
+#contacts {
+    margin: auto;
+}
+
+#source{
+    font-weight: normal;
+    margin: auto;
+}
+
+
+.cursor {
+    position: absolute;
+    margin-top: -4vh;
+    width: 45px;
+    height: 59px;
 }
