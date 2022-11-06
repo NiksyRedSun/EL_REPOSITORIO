@@ -1,0 +1,73 @@
+:root {
+  --main-color: #39bff8;
+  --main-body-color: #090830;
+
+  --font-color: #94d2ff;
+}
+
+body {
+  margin: auto;
+  padding: auto;
+}
+
+.main {
+  background-color: var(--main-color);
+  height: 70vh;
+  display: flex;
+  justify-content: center; /*Центрирование по горизонтали всего контента внутри класса*/
+  align-items: center; /*Центрирование по вертикали*/
+}
+
+.main-body {
+  background-color: var(--main-body-color);
+  width: 50%;
+  height: 60%;
+  border-radius: 10px;
+  border-color: white;
+}
+
+.main-body-content {
+  color: var(--font-color);
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  margin: 10%;
+  font-family: "Montserrat";
+  color: white;
+}
+
+.to-api-button {
+  background-color: #16d66e;
+  border-radius: 10px;
+  padding: 1% 2%;
+  font-weight: bold;
+  color: white;
+  font-size: 1vmax;
+  letter-spacing: 3px;
+  margin: 1% 2%;
+}
+
+
+
+.github-ref {
+  color: #94d2ff;
+  text-decoration: none;
+  letter-spacing: 1px;
+  font-size: 1vmax;
+  margin: 1% 2%;
+}
+
+.html-css-span {
+  margin-top: 5vh;
+  padding-bottom: 5%;
+  font-size: 2vmax;
+}
+
+.html-css-icons {
+  background-color: white;
+  padding: 3vh 10vw;
+  border-radius: 45px;
+}
+.github-ref:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,160 @@
+.main-body {
+    background-color: #39BEF8;
+    padding-bottom: 74vh;
+    display: flex;
+    justify-content: center
+
+}
+
+.main-body-frame {
+    background-color: #090830;
+    width: 59vw;
+    height: 42vh;
+    position: absolute;
+    margin-top: 15vh;
+    border-radius: 8px;
+    text-align: center;
+    border: thin solid white;
+}
+
+.title {
+    width: 25vw;
+    height: 13vh;
+    margin: auto;
+    margin-top: 9vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.api {
+    background-color: #16D66E;
+    width: 5.3vw;
+    height: 3vh;
+    border-radius: 18px;
+    color: white;
+    text-align: center;
+    font-family: 'montserrat', sans-serif;
+    font-weight: 600;
+    margin-top: -5vh;
+    margin-bottom: 2vh;
+    transition: all 0.5s ease;
+}
+
+.api:hover {
+    background-color: #16D66E90
+}
+
+.title a{
+    color: #94D2FF;
+    text-transform: uppercase;
+    font-family: 'montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 800;;
+}
+
+#com {
+    text-decoration: underline;
+}
+
+
+#cursor {
+    width: 2%;
+    height: 8%;
+    position: absolute;
+    margin-left: 25vh;
+    margin-bottom: 2.5vh;
+
+}
+
+#st{
+    color: white;
+    font-family: 'montserrat', sans-serif;
+    font-size: 25px;
+    font-weight: 400;
+    position: relative;
+    top: 0.5vh;
+
+}
+
+body{
+    margin: auto;
+
+}
+
+.footer {
+    margin-left: 2.5vw;
+    margin-top: 3vh;
+    margin-right: 2.5vw;
+    font-size: 2.5vh;
+    font-family: 'roboto', sans-serif;
+    font-weight: 900;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    color: #090830;
+}
+
+#contacts {
+    margin: auto;
+}
+
+#source{
+    font-weight: normal;
+    margin: auto;
+}
+
+
+
+
+
+#link {
+    margin-top: -2.5vh;
+    margin-bottom: 8vh;
+    text-decoration: underline;
+    color: #090830;
+}
+
+#author {
+    margin: auto;
+
+}
+
+#tg {
+    margin-top: -2.4vh;
+}
+
+#time {
+    font-weight: normal;
+    margin-top: 22.7vh;
+}
+
+.tools {
+    background-color: white;
+    width: 7.7vw;
+    height: 7.4vh;
+    border-radius: 45px;
+    position: relative;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: -2vh;
+
+}
+
+#icons {
+    width: 30%;
+    height: 60%;
+    margin: auto;
+
+}
+
+.icons {
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    width: 6vw;
+    height: 7.2vh;
+}

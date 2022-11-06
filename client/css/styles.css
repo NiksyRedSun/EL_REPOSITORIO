@@ -1,0 +1,24 @@
+p {
+    background-color: red;
+}
+
+h1, h2, h3 {
+    background-color: lightskyblue; color: cyan;
+}
+
+#last_jesus {
+    background-color: #1E1E1E;
+}
+
+.box {
+    width: 100px;
+    height: 100px;
+    background: firebrick;
+    margin-top: 30px;
+}
+
+.container {
+    width: 1170px;
+    /*позиционирование по центру*/
+    margin: 0 auto;
+}
