@@ -49,15 +49,26 @@ def put():
     print(json.dumps(cursor.fetchall()))
 
 
+def delete():
+    cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+    id = int(input('Впишите id, который подлежит удалению: '))
+    query = f"DELETE FROM person WHERE id = {id}"
+    cursor.execute(query)
+    print('В общем-то он удален, но чтобы убедиться гляньте на содержимое таблицы:')
+    cursor.execute(f"SELECT * FROM person")
+    print(json.dumps(cursor.fetchall()))
+
+
 connection = psycopg2.connect(host='localhost',  # метод connect() создает подключение к экземпляру базы данных PSQL
                                   port=5432,
                                   user='postgres',
                                   dbname='postgres')
 connection.autocommit = True
-command = str(input('Задайте команду на выбор (GET_ONE, GET_ALL, POST, PUT): '))
+command = str(input('Задайте команду на выбор (GET_ONE, GET_ALL, POST, PUT, DELETE): '))
 
 with connection:
     if command == 'GET_ALL': get_all()
     if command == 'GET_ONE': get_one()
     if command == 'POST': post()
     if command == 'PUT': put()
+    if command == 'DELETE': delete()
