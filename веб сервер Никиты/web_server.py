@@ -1,14 +1,17 @@
-import datetime
 from flask import Flask, request
 import json
 import random
-from person import Person
-from json_file_worker import loading, saving
-from more_functions import functions_keys, functions_dict
+import psycopg2
+import psycopg2.extras
 
 app = Flask(__name__)
 
-names = ['john', 'jack', 'bill', 'sady', 'chavier', 'charles', 'arthur', 'leopold', 'shon', 'caren']
+names = ['John', 'Jack', 'Bill', 'Sady', 'Chavier', 'Charles', 'Arthur', 'Leopold', 'Sean', 'Caren']
+
+connection = psycopg2.connect(host='localhost',  # метод connect() создает подключение к экземпляру базы данных PSQL
+                                  port=5432,
+                                  user='postgres',
+                                  dbname='postgres')
 
 def CheckInputs(inputs, requires):
     for param in requires:
@@ -16,105 +19,96 @@ def CheckInputs(inputs, requires):
                 return (json.dumps({'status': 'data_error', 'message': f'{param} expected'}), 400)
     return 'passed'
 
-@app.route('/functions')
-def functions_page():
-    return functions_keys
-
-@app.route('/<function>')
-def function_page(function):
-    return functions_dict[function]
-
-@app.route('/dice')
-def dice():
-    return str(random.choice([1, 2, 3, 4, 5, 6]))
-
-@app.route('/date')
-def date():
-    return str(datetime.datetime.today())
-
 @app.route('/')
 def start_page():
-    return 'You are welcome at SLOVNIK, check /functions for more functions'
+    return 'You are welcome at SLOVNIK'
 
 @app.route('/users')
 def show_users_profile():
-    slovnik = loading()
-    slovnik_info = ''
-    for value in slovnik.values():
-        slovnik_info += str(value.short_info()) + '; '
-    return slovnik_info
-
-@app.route('/user/<user>')
-def show_user_profile(user):
-    slovnik = loading()
-    if user in slovnik:
-        return slovnik[user].info()
-    else:
-        return 'You are looking for the wrong person'
-
-@app.route('/user/<user>', methods=['DELETE'])
-def delete_user_profile(user):
-    slovnik = loading()
-    if user in slovnik:
-        del slovnik[user]
-        deleted_data = user.capitalize() + ' ' + 'had deleted even before you thought about it'
-        saving(slovnik)
-        return deleted_data
-    else:
-        return 'You are trying to delete unregistered person'
+    with connection:
+        cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(f"SELECT * FROM person")
+        rows = cursor.fetchall()
+        return json.dumps(rows)
 
 
-@app.route('/user/<user>', methods=['POST'])
-def post_user_profile(user):
-    inputs = request.get_json()
-    check = CheckInputs(inputs,  ['name', 'age'])
-    slovnik = loading()
-    if check != 'passed':
-        return check
-    if user not in slovnik:
+@app.route('/user/<id>')
+def show_user_profile(id):
+    with connection:
+        cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(f"SELECT * FROM person WHERE id = {id}")
+        rows = cursor.fetchall()
+        if rows:
+            return json.dumps(rows)
+        else:
+            return 'We have a search problem with this id'
+
+
+@app.route('/user/<id>', methods=['DELETE'])
+def delete_user_profile(id):
+    with connection:
+        cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        cursor.execute(f"SELECT * FROM person WHERE id = {id}")
+        rows = cursor.fetchall()
+        if rows:
+            cursor.execute(f"DELETE FROM person WHERE id = {id}")
+            cursor.execute(f"SELECT * FROM person")
+            return f'В общем-то он удален, но чтобы убедиться гляньте на содержимое таблицы: {json.dumps(cursor.fetchall())}'
+        else:
+            return 'We have a search problem with this id'
+
+
+@app.route('/user/post', methods=['POST'])
+def post_user_profile():
+    with connection:
+        inputs = request.get_json()
+        check = CheckInputs(inputs, ['name', 'age'])
+        if check != 'passed':
+            return check
+        cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        name = inputs['name']
         age = inputs['age']
-        user = Person(user, age)
-        slovnik[user.name] = user
-        posted_data = (user.name).capitalize() + ' ' + 'has been successfully added to dictionary'
-        saving(slovnik)
-        return posted_data
-    else:
-        return 'This person is alredy on the list'
+        cursor.execute(f"INSERT INTO person(name, age) VALUES ('{name}', {age});")
+        cursor.execute(f"SELECT * FROM person")
+        return f"{name} успешно добавлен, но чтобы убедиться гляньте на содержимое таблицы: {json.dumps(cursor.fetchall())}"
+
 
 @app.route('/postrandom', methods=['POST'])
 def post_random_profile():
-    slovnik = loading()
     if len(names) > 0:
-        name = random.choice(names)
-        age = random.randint(16, 55)
-        user = Person(name, age)
-        names.remove(name)
-        slovnik[user.name] = user
-        saving(slovnik)
-        posted_data = (user.name).capitalize() + ' ' + 'that is ' + str(user.age) + ' ' + 'has been successfully added to dictionary'
-        return posted_data
+        with connection:
+            inputs = request.get_json()
+            check = CheckInputs(inputs, ['name', 'age'])
+            if check != 'passed':
+                return check
+            cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+            name = random.choice(names)
+            age = random.randint(16, 55)
+            cursor.execute(f"INSERT INTO person(name, age) VALUES ('{name}', {age});")
+            cursor.execute(f"SELECT * FROM person")
+            return f"{name} успешно добавлен, но чтобы убедиться гляньте на содержимое таблицы: {json.dumps(cursor.fetchall())}"
     else:
         return 'There is no free nicknames left'
 
-@app.route('/user/<user>', methods=['PUT'])
-def put_user_profile(user):
-    slovnik = loading()
-    inputs = request.get_json()
-    check = CheckInputs(inputs, ['name', 'age'])
-    if check != 'passed':
-        return check
-    if user in slovnik:
-        prevname = user.capitalize()
-        name = inputs['name']
-        age = inputs['age']
-        del slovnik[user]
-        user = Person(name, age)
-        slovnik[user.name] = user
-        posted_data = prevname + ' has been changed successfully for ' + (user.name).capitalize()
-        saving(slovnik)
-        return posted_data
-    else:
-        return 'You are trying to change unregistered person'
+
+@app.route('/user/<id>', methods=['PUT'])
+def put_user_profile(id):
+    with connection:
+        inputs = request.get_json()
+        check = CheckInputs(inputs, ['name', 'age'])
+        cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        query = f"SELECT * FROM person WHERE id = {id}"
+        cursor.execute(query)
+        rows = cursor.fetchall()
+        if rows:
+            name = inputs['name']
+            age = inputs['age']
+            cursor.execute(f"UPDATE person SET name = '{name}', age = {age} WHERE id = {id}")
+            cursor.execute(f"SELECT * FROM person WHERE id = {id}")
+            return f'В результате получилось: {json.dumps(cursor.fetchall())}'
+        else:
+            return 'You are trying to change unregistered person'
+
 
 if __name__ == '__main__':
     app.run(debug = True)
