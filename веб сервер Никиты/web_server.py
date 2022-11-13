@@ -3,15 +3,20 @@ import json
 import random
 import psycopg2
 import psycopg2.extras
+from psycopg2 import pool
 
 app = Flask(__name__)
 
 names = ['John', 'Jack', 'Bill', 'Sady', 'Chavier', 'Charles', 'Arthur', 'Leopold', 'Sean', 'Caren']
 
-connection = psycopg2.connect(host='localhost',  # метод connect() создает подключение к экземпляру базы данных PSQL
-                                  port=5432,
-                                  user='postgres',
-                                  dbname='postgres')
+connections_pool = psycopg2.pool.SimpleConnectionPool(1, 100,
+                                                        host='localhost',  # метод connect() создает подключение к экземпляру базы данных PSQL
+                                                        port=5432,
+                                                        user='postgres',
+                                                        dbname='postgres')
+
+# connection.autocommit = True    # важно, нужно для того чтобы все что мы делаем сразу отражалось в БД
+
 
 def CheckInputs(inputs, requires):
     for param in requires:
@@ -25,6 +30,7 @@ def start_page():
 
 @app.route('/users')
 def show_users_profile():
+    connection = connections_pool.getconn()
     with connection:
         cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute(f"SELECT * FROM person")
@@ -34,6 +40,7 @@ def show_users_profile():
 
 @app.route('/user/<id>')
 def show_user_profile(id):
+    connection = connections_pool.getconn()
     with connection:
         cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute(f"SELECT * FROM person WHERE id = {id}")
@@ -46,6 +53,7 @@ def show_user_profile(id):
 
 @app.route('/user/<id>', methods=['DELETE'])
 def delete_user_profile(id):
+    connection = connections_pool.getconn()
     with connection:
         cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cursor.execute(f"SELECT * FROM person WHERE id = {id}")
@@ -60,6 +68,7 @@ def delete_user_profile(id):
 
 @app.route('/user/post', methods=['POST'])
 def post_user_profile():
+    connection = connections_pool.getconn()
     with connection:
         inputs = request.get_json()
         check = CheckInputs(inputs, ['name', 'age'])
@@ -75,6 +84,7 @@ def post_user_profile():
 
 @app.route('/postrandom', methods=['POST'])
 def post_random_profile():
+    connection = connections_pool.getconn()
     if len(names) > 0:
         with connection:
             inputs = request.get_json()
@@ -93,9 +103,12 @@ def post_random_profile():
 
 @app.route('/user/<id>', methods=['PUT'])
 def put_user_profile(id):
+    connection = connections_pool.getconn()
     with connection:
         inputs = request.get_json()
         check = CheckInputs(inputs, ['name', 'age'])
+        if check != 'passed':
+            return check
         cursor = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         query = f"SELECT * FROM person WHERE id = {id}"
         cursor.execute(query)
