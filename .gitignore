@@ -10,3 +10,5 @@
 trash
 trash/sql_spacecrafts.py
 trash/sql_spacecrafts_not_my.py
+
+*/__pycache__
