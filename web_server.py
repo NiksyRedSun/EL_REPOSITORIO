@@ -1,6 +1,6 @@
 from flask import Flask, request
 import json
-from person import persons, person
+from person import person_repository, Person
 
 app = Flask(__name__)
 
@@ -18,21 +18,21 @@ def start_page():
 
 
 @app.route('/users')
-def show_users_profile():
-    return persons().show_all_persons()
+def get_users_profile():
+    return person_repository().show()
 
 
 @app.route('/user/<id>')
-def show_user_profile(id):
-    return person(id).show_one_person()
+def get_user_profile(id):
+    return person_repository().show(Person(id=id))
 
 
 @app.route('/user/<id>', methods=['DELETE'])
 def delete_user_profile(id):
-    return person(id).delete_one_person()
+    return person_repository().delete(Person(id=id))
 
 
-@app.route('/user/post', methods=['POST'])
+@app.route('/user', methods=['POST'])
 def post_user_profile():
     inputs = request.get_json()
     check = CheckInputs(inputs, ['name', 'age'])
@@ -40,7 +40,7 @@ def post_user_profile():
         return check
     name = inputs['name']
     age = inputs['age']
-    return persons().post_one_person(name, age)
+    return person_repository().create(Person(name=name, age=age))
 
 
 @app.route('/user/<id>', methods=['PUT'])
@@ -51,7 +51,7 @@ def put_user_profile(id):
         return check
     name = inputs['name']
     age = inputs['age']
-    return person(id).change_person_profile(name, age)
+    return person_repository().update(Person(id=id, name=name, age=age))
 
 
 if __name__ == '__main__':
