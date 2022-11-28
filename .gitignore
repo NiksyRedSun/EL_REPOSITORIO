@@ -1,16 +1,9 @@
 # Default ignored files
-/shelf/
-/workspace.xml
-# Datasource local storage ignored files
-/dataSources/
-/dataSources.local.xml
 .idea
 .git
+.gitattributes
 *.env
-trash
-trash/sql_spacecrafts.py
-trash/sql_spacecrafts_not_my.py
-
+/trash
 */__pycache__
 /client
 /Веб сервер Макса
