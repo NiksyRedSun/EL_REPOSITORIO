@@ -3,7 +3,7 @@
 .git
 .gitattributes
 *.env
-/trash
+trash
 */__pycache__
 /client
 /Веб сервер Макса
