@@ -3,5 +3,5 @@
 .git
 .gitattributes
 *.env
-trash
+*/trash
 */__pycache__
