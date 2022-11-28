@@ -5,7 +5,3 @@
 *.env
 trash
 */__pycache__
-/client
-/Веб сервер Макса
-/sql
-/some_interesting_things
