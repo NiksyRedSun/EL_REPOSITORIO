@@ -32,7 +32,8 @@ def get_user_profile(id):
 
 @app.route('/user/<id>', methods=['DELETE'])
 def delete_user_profile(id):
-    return __person_repository.delete(Person(id=id))
+    if __person_repository.delete(Person(id=id)):
+        return json.dumps({'success': True, 'code': 200})
 
 
 @app.route('/user', methods=['POST'])
@@ -46,6 +47,7 @@ def post_user_profile():
     return __person_repository.create(Person(name=name, age=age))
 
 
+
 @app.route('/user/<id>', methods=['PUT'])
 def put_user_profile(id):
     inputs = request.get_json()
@@ -54,7 +56,8 @@ def put_user_profile(id):
         return check
     name = inputs['name']
     age = inputs['age']
-    return __person_repository.update(Person(id, name, age))
+    if __person_repository.update(Person(id, name, age)):
+        return json.dumps({'success': True, 'code': 200})
 
 
 if __name__ == '__main__':
