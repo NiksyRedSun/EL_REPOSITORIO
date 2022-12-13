@@ -12,7 +12,7 @@ from person_exceptions import PersonException
 
 load_dotenv()
 
-connections_pool = psycopg2.pool.ThreadedConnectionPool(
+connections_pool = pool.ThreadedConnectionPool(
     1,
     100,
     host=os.getenv("host"),
@@ -63,22 +63,13 @@ class person_repository:
 
     def delete(self, person):
         self.__guard_is_not_empty(person)
-        rows = _execute_sql_with_return(f"SELECT * FROM person WHERE id = {person.id}")
-        if rows:
-            _execute_sql_with_no_return(f"DELETE FROM person WHERE id = {person.id}")
-            return True
-        else:
-            raise PersonException(f'Person with id {person.id} not found')
+        _execute_sql_with_no_return(f"DELETE FROM person WHERE id = {person.id}")
+        return True
+
 
     def create(self, person):
-        # self.__guard_is_not_empty(person)
-        # rows = _execute_sql_with_return(f'INSERT INTO person(name, age) VALUES ({person.name}, {person.age}); SELECT MAX(id) AS current_id FROM person')
-        # return json.dumps(rows)
-        # оставил для предпросмотра, в данном фрагменте почему-то принимает person.name за название столбца
-
         self.__guard_is_not_empty(person)
-        _execute_sql_with_no_return('INSERT INTO person(name, age) VALUES (%s, %s);', (person.name, person.age))
-        rows = _execute_sql_with_return('SELECT MAX(id) AS current_id FROM person')
+        rows = _execute_sql_with_return('INSERT INTO person(name, age) VALUES (%s, %s) RETURNING id;', (person.name, person.age))
         return json.dumps(*rows)
 
 
@@ -90,7 +81,5 @@ class person_repository:
         else:
             raise PersonException(f'Person with id {person.id} not found')
 
-        # _execute_sql_with_no_return("UPDATE person SET name = %s, age = %s WHERE id = %s;", (person.name, person.age, person.id))
-        # return json.dumps({'success': True, 'code': 200}) - я попытался оставить такой код, но тогда не делается проверки на то, есть ли данный персон в бд
 
 

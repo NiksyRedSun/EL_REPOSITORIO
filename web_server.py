@@ -2,6 +2,7 @@ from flask import Flask, request
 import json
 from person_repository import person_repository
 from person import Person
+from person_exceptions import PersonException
 
 app = Flask(__name__)
 
@@ -10,8 +11,8 @@ __person_repository = person_repository()
 
 def __сheck_inputs(inputs, requires):
     for param in requires:
-            if param not in inputs:
-                raise Exception(json.dumps({'status': 'data_error', 'message': f'{param} expected'}), 400)
+        if param not in inputs:
+            raise Exception(json.dumps({'status': 'data_error', 'message': f'{param} expected'}), 400)
     return 'passed'
 
 
@@ -33,7 +34,9 @@ def get_user_profile(id):
 @app.route('/user/<id>', methods=['DELETE'])
 def delete_user_profile(id):
     if __person_repository.delete(Person(id=id)):
-        return json.dumps({'success': True, 'code': 200})
+        return json.dumps({'success': True}), 200
+    else:
+        raise PersonException('500')
 
 
 @app.route('/user', methods=['POST'])
@@ -57,7 +60,9 @@ def put_user_profile(id):
     name = inputs['name']
     age = inputs['age']
     if __person_repository.update(Person(id, name, age)):
-        return json.dumps({'success': True, 'code': 200})
+        return json.dumps({'success': True}), 200
+    else:
+        raise PersonException('500')
 
 
 if __name__ == '__main__':
